@@ -1,64 +1,68 @@
-from dotenv import load_dotenv
 import os
 
+from dotenv import load_dotenv
+
+
 class Config:
-    
     def __init__(self):
         load_dotenv()
-        
-        self.project_path = os.getenv("project_path") 
-        self.data_folder = os.getenv("data_folder")  
+
+        self.project_path = os.getenv("project_path")
+        self.data_folder = os.getenv("data_folder")
         self.estate_details_folder = os.getenv("estate_details_folder")
         self.geo_locations_folder = os.getenv("geo_locations_folder")
         self.scraped_prices_folder = os.getenv("scraped_prices_folder")
-        self.db_name = os.getenv("db_name") 
-        self.mailing_credentials = {"server": os.getenv("server"),
-                                    "port": os.getenv("port"),
-                                    "sender_email": os.getenv("sender_email"),
-                                    "password": os.getenv("password"),
-                                    "receiver_email": os.getenv("receiver_email")
-                                    }
-        
+        self.db_name = os.getenv("db_name")
+        self.mailing_credentials = {
+            "server": os.getenv("server"),
+            "port": os.getenv("port"),
+            "sender_email": os.getenv("sender_email"),
+            "password": os.getenv("password"),
+            "receiver_email": os.getenv("receiver_email"),
+        }
+
         # category_type_cb
-        self.type_of_deal={"1": "prodej",
-                        "2": "pronájem",
-                        "3": "dražba",
-                        "4": "prodej podílu",
-                        }
-        
+        self.type_of_deal = {
+            "1": "prodej",
+            "2": "pronájem",
+            "3": "dražba",
+            "4": "prodej podílu",
+        }
+
         # category_main_cb
-        self.type_of_building={"1": "byt",
-                            "2": "dům",
-                            "3": "pozemek",
-                            "4": "komerční nemovitost a nebytový prostor",
-                            "5": "ostatní",
-                            }
+        self.type_of_building = {
+            "1": "byt",
+            "2": "dům",
+            "3": "pozemek",
+            "4": "komerční nemovitost a nebytový prostor",
+            "5": "ostatní",
+        }
 
         # category_sub_cb
-        self.type_of_rooms={"1" : "N/A",
-                        "2": "1+kk",
-                        "3": "1+1",
-                        "4": "2+kk",
-                        "5": "2+1",
-                        "6": "3+kk",
-                        "7": "3+1",
-                        "8": "4+kk",
-                        "9": "4+1",
-                        "10": "5+kk",
-                        "11": "5+1",
-                        "12": "6 pokoju a vic",
-                        "16": "atypické",
-                        "19": "stavební parcela",
-                        "23": "zahrada" ,
-                        "33": "chata" ,
-                        "37": "rodinný" ,
-                        "39": "vila",
-                        "47": "pronájem pokoje"
-                        }
-                
-        self.table_definitions={
-            "estate_detail": 
-                    """ 
+        self.type_of_rooms = {
+            "1": "N/A",
+            "2": "1+kk",
+            "3": "1+1",
+            "4": "2+kk",
+            "5": "2+1",
+            "6": "3+kk",
+            "7": "3+1",
+            "8": "4+kk",
+            "9": "4+1",
+            "10": "5+kk",
+            "11": "5+1",
+            "12": "6 pokoju a vic",
+            "16": "atypické",
+            "19": "stavební parcela",
+            "23": "zahrada",
+            "33": "chata",
+            "37": "rodinný",
+            "39": "vila",
+            "47": "pronájem pokoje",
+        }
+
+        self.table_definitions = {
+            "estate_detail": """
                     CREATE TABLE IF NOT EXISTS estate_detail (
                     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                     code VARCHAR(255) NOT NULL,
@@ -112,16 +116,15 @@ class Config:
                     no_barriers VARCHAR(255) NOT NULL,
                     start_of_offer VARCHAR(255) NOT NULL,
                     crawled_at datetime NOT NULL
-                    ); 
+                    );
                     """,
-            "price_history": 
-                    """ 
+            "price_history": """
                     CREATE TABLE IF NOT EXISTS price_history (
                     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                     estate_id INTEGER NOT NULL,
                     price INTEGER NOT NULL,
                     crawled_at datetime NOT NULL,
                     FOREIGN KEY (estate_id) REFERENCES estate_detail (id)
-                    ); 
-                    """                
+                    );
+                    """,
         }
